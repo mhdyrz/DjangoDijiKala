@@ -1,0 +1,167 @@
+{% extends 'base.html' %}
+
+{% block title %}Seller Panel | DijiKala{% endblock %}
+
+{% block content %}
+
+<section>
+
+    <h1>
+        Seller Panel
+    </h1>
+
+    <p>
+        Welcome back,
+        {{ user.first_name }}
+        {{ user.last_name }}.
+    </p>
+
+</section>
+
+
+<!-- Seller Dashboard -->
+
+<div class="dashboard-grid">
+
+    <!-- Stores -->
+
+    <div class="dashboard-card">
+
+        <p>
+            My Stores
+        </p>
+
+        <div class="value">
+            {{ stores.count }}
+        </div>
+
+        <br>
+
+        <a
+            href="{% url 'create_store' %}"
+            class="btn"
+        >
+            Create Store
+        </a>
+
+    </div>
+
+
+    <!-- Products -->
+
+    <div class="dashboard-card">
+
+        <p>
+            Total Products
+        </p>
+
+        <div class="value">
+            {{ total_products }}
+        </div>
+
+        <p>
+            Products across your stores
+        </p>
+
+    </div>
+
+</div>
+
+
+<!-- My Stores -->
+
+<section>
+
+    <h2>
+        My Stores
+    </h2>
+
+    <div class="card-grid">
+
+        {% for store in stores %}
+
+            <div class="card">
+
+                <h3>
+                    {{ store.name }}
+                </h3>
+
+
+                {% if store.description %}
+
+                    <p>
+                        {{ store.description|truncatewords:20 }}
+                    </p>
+
+                {% endif %}
+
+
+                <p>
+                    <strong>
+                        Products:
+                    </strong>
+
+                    {{ store.products.count }}
+                </p>
+
+
+                <p>
+                    <strong>
+                        Store Balance:
+                    </strong>
+
+                    ${{ store.balance }}
+                </p>
+
+
+                <br>
+
+
+                <a
+                    href="{% url 'store_detail' store.id %}"
+                    class="btn btn-secondary"
+                >
+                    View Store
+                </a>
+
+
+                <a
+                    href="{% url 'manage_store' store.id %}"
+                    class="btn"
+                >
+                    Manage Store
+                </a>
+
+            </div>
+
+
+        {% empty %}
+
+            <div class="card">
+
+                <h3>
+                    No stores yet.
+                </h3>
+
+                <p>
+                    Create your first store to start selling.
+                </p>
+
+                <br>
+
+                <a
+                    href="{% url 'create_store' %}"
+                    class="btn"
+                >
+                    Create Store
+                </a>
+
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+{% endblock %}

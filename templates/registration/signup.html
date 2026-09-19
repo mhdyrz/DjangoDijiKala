@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+
+{% block title %}Sign Up | DijiKala{% endblock %}
+
+{% block content %}
+
+<h2>Create Account</h2>
+
+{% if error %}
+    <div class="card">
+        <p>{{ error }}</p>
+    </div>
+{% endif %}
+
+<form method="post" class="auth-form">
+
+    {% csrf_token %}
+
+    <label for="first_name">First Name</label>
+
+    <input
+        type="text"
+        id="first_name"
+        name="first_name"
+        placeholder="Enter first name"
+        required
+    >
+
+    <label for="last_name">Last Name</label>
+
+    <input
+        type="text"
+        id="last_name"
+        name="last_name"
+        placeholder="Enter last name"
+        required
+    >
+
+    <label for="username">Username</label>
+
+    <input
+        type="text"
+        id="username"
+        name="username"
+        placeholder="Choose a username"
+        required
+    >
+
+    <label for="phone">Phone</label>
+
+    <input
+        type="text"
+        id="phone"
+        name="phone"
+        placeholder="Enter phone number"
+        required
+    >
+
+    <label for="role">Account Type</label>
+
+    <select id="role" name="role" required>
+
+        <option value="">Select your role</option>
+
+        <option value="customer">
+            Customer
+        </option>
+
+        <option value="seller">
+            Seller
+        </option>
+
+    </select>
+
+    <label for="password">Password</label>
+
+    <input
+        type="password"
+        id="password"
+        name="password"
+        placeholder="Choose a password"
+        required
+    >
+
+    <label for="password2">Confirm Password</label>
+
+    <input
+        type="password"
+        id="password2"
+        name="password2"
+        placeholder="Repeat your password"
+        required
+    >
+
+    <button type="submit" class="btn">
+        Sign Up
+    </button>
+
+</form>
+
+<p>
+    Already have an account?
+    <a href="{% url 'login' %}">Login</a>
+</p>
+
+{% endblock %}

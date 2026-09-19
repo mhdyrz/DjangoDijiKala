@@ -1,0 +1,201 @@
+{% extends 'base.html' %}
+
+{% block title %}Cart | DijiKala{% endblock %}
+
+{% block content %}
+
+<section>
+
+    <h1>
+        Shopping Cart
+    </h1>
+
+    <p>
+        Review your products before checkout.
+    </p>
+
+</section>
+
+
+{% if error %}
+
+    <div class="alert alert-error">
+        {{ error }}
+    </div>
+
+{% endif %}
+
+
+{% if cart_items %}
+
+    <div class="cart-wrapper">
+
+        <table class="cart-table">
+
+            <thead>
+
+                <tr>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                    <th>Action</th>
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for item in cart_items %}
+
+                    <tr>
+
+                        <td>
+
+                            <strong>
+                                {{ item.product.name }}
+                            </strong>
+
+                            <br>
+
+                            <small>
+                                {{ item.product.store.name }}
+                            </small>
+
+                        </td>
+
+
+                        <td>
+                            ${{ item.product.price|floatformat:2 }}
+                        </td>
+
+
+                        <td>
+
+                            <div class="quantity-controls">
+
+                                <a
+                                    href="{% url 'decrease_cart_item' item.id %}"
+                                    class="quantity-btn"
+                                >
+                                    −
+                                </a>
+
+                                <span class="quantity">
+                                    {{ item.quantity }}
+                                </span>
+
+                                <a
+                                    href="{% url 'increase_cart_item' item.id %}"
+                                    class="quantity-btn"
+                                >
+                                    +
+                                </a>
+
+                            </div>
+
+                        </td>
+
+
+                        <td>
+
+                            <strong class="cart-item-total">
+                                ${{ item.product.price|floatformat:2 }}
+                                ×
+                                {{ item.quantity }}
+                            </strong>
+
+                        </td>
+
+
+                        <td>
+
+                            <a
+                                href="{% url 'remove_from_cart' item.id %}"
+                                class="btn btn-danger"
+                            >
+                                Remove
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <!-- Cart Summary -->
+
+    <div class="cart-summary">
+
+        <div>
+
+            <p>
+                Total Items:
+                <strong>{{ cart_items.count }}</strong>
+            </p>
+
+            <h2>
+                Cart Total:
+                <span class="cart-total-price">
+                    ${{ total|floatformat:2 }}
+                </span>
+            </h2>
+
+        </div>
+
+
+        <div class="cart-summary-actions">
+
+            <a
+                href="{% url 'stores' %}"
+                class="btn btn-secondary"
+            >
+                Continue Shopping
+            </a>
+
+            <a
+                href="{% url 'checkout' %}"
+                class="btn"
+            >
+                Checkout
+            </a>
+
+        </div>
+
+    </div>
+
+
+{% else %}
+
+    <div class="card empty-cart">
+
+        <h2>
+            Your cart is empty.
+        </h2>
+
+        <p>
+            You haven't added any products to your cart yet.
+        </p>
+
+        <br>
+
+        <a
+            href="{% url 'stores' %}"
+            class="btn"
+        >
+            Browse Stores
+        </a>
+
+    </div>
+
+{% endif %}
+
+{% endblock %}

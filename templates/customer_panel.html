@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+
+{% block title %}Customer Panel | DijiKala{% endblock %}
+
+{% block content %}
+
+<section>
+
+    <h1>
+        Customer Panel
+    </h1>
+
+    <p>
+        Welcome back, {{ customer.user.first_name }}.
+    </p>
+
+</section>
+
+
+<!-- Dashboard -->
+
+<div class="dashboard-grid">
+
+    <div class="dashboard-card">
+
+        <p>
+            Balance
+        </p>
+
+        <div class="value">
+            ${{ customer.balance }}
+        </div>
+
+        <br>
+
+        <a
+            href="{% url 'payment' %}"
+            class="btn"
+        >
+            Increase Balance
+        </a>
+
+    </div>
+
+
+    <div class="dashboard-card">
+
+        <p>
+            Shopping Cart
+        </p>
+
+        <div class="value">
+            {{ customer.cart_items.count }}
+        </div>
+
+        <br>
+
+        <a
+            href="{% url 'cart' %}"
+            class="btn"
+        >
+            View Cart
+        </a>
+
+    </div>
+
+
+    <div class="dashboard-card">
+
+        <p>
+            Orders
+        </p>
+
+        <div class="value">
+            {{ orders.count }}
+        </div>
+
+        <br>
+
+        <a
+            href="{% url 'order_history' %}"
+            class="btn"
+        >
+            Order History
+        </a>
+
+    </div>
+
+</div>
+
+
+<!-- Personal Information -->
+
+<section>
+
+    <h2>
+        Personal Information
+    </h2>
+
+    <div class="card">
+
+        <p>
+            <strong>Name:</strong>
+            {{ customer.user.first_name }}
+            {{ customer.user.last_name }}
+        </p>
+
+        <p>
+            <strong>Username:</strong>
+            {{ customer.user.username }}
+        </p>
+
+        <p>
+            <strong>Phone:</strong>
+            {{ customer.phone }}
+        </p>
+
+        <p>
+            <strong>Balance:</strong>
+            ${{ customer.balance }}
+        </p>
+
+    </div>
+
+</section>
+
+{% endblock %}

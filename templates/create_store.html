@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}Create Store | DijiKala{% endblock %}
+
+{% block content %}
+
+<h2>Create New Store</h2>
+
+<form method="post" class="payment-form">
+    {% csrf_token %}
+
+    <label for="name">Store Name</label>
+    <input
+        type="text"
+        id="name"
+        name="name"
+        placeholder="Enter store name"
+        required
+    >
+
+    <label for="description">Description</label>
+    <textarea
+        id="description"
+        name="description"
+        placeholder="Enter store description"
+        rows="5"
+        required
+    ></textarea>
+
+    <button type="submit" class="btn">
+        Create Store
+    </button>
+</form>
+
+<br>
+
+<a href="{% url 'seller_panel' %}" class="btn">
+    Back to Seller Panel
+</a>
+
+{% endblock %}

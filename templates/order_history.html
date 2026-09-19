@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+
+{% block title %}Order History | DijiKala{% endblock %}
+
+{% block content %}
+
+<section>
+
+    <h1>
+        Order History
+    </h1>
+
+    <p>
+        Here you can see all of your previous orders.
+    </p>
+
+</section>
+
+
+{% for order in orders %}
+
+    <div class="card order-card">
+
+        <div class="order-header">
+
+            <div>
+                <h3>
+                    Order #{{ order.id }}
+                </h3>
+
+                <p>
+                    {{ order.date|date:"Y-m-d H:i" }}
+                </p>
+            </div>
+
+
+            <div class="order-total">
+
+                <span>
+                    Total
+                </span>
+
+                <strong>
+                    ${{ order.total_amount|floatformat:2 }}
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <hr>
+
+
+        <h4>
+            Products
+        </h4>
+
+
+        {% for item in order.items.all %}
+
+            <div class="order-item">
+
+                <div>
+
+                    <strong>
+                        {{ item.product.name }}
+                    </strong>
+
+                    <p>
+                        Quantity:
+                        {{ item.quantity }}
+                    </p>
+
+                </div>
+
+
+                <div class="order-item-price">
+
+                    ${{ item.price|floatformat:2 }}
+
+                </div>
+
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+{% empty %}
+
+    <div class="card empty-cart">
+
+        <h2>
+            No orders yet.
+        </h2>
+
+        <p>
+            You haven't placed any orders yet.
+        </p>
+
+        <br>
+
+        <a
+            href="{% url 'stores' %}"
+            class="btn"
+        >
+            Browse Stores
+        </a>
+
+    </div>
+
+{% endfor %}
+
+
+<br>
+
+
+<a
+    href="{% url 'customer_panel' %}"
+    class="btn btn-secondary"
+>
+    ← Back to Customer Panel
+</a>
+
+{% endblock %}

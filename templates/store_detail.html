@@ -1,0 +1,151 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ store.name }} | DijiKala{% endblock %}
+
+{% block content %}
+
+<!-- Store Header -->
+
+<section class="hero">
+
+    <h1>
+        {{ store.name }}
+    </h1>
+
+    {% if store.description %}
+        <p>
+            {{ store.description }}
+        </p>
+    {% endif %}
+
+    {% if user.is_authenticated and user == store.owner.user %}
+
+        <a
+            href="{% url 'manage_store' store.id %}"
+            class="btn"
+        >
+            Manage Store
+        </a>
+
+        <a
+            href="{% url 'add_product' store.id %}"
+            class="btn btn-secondary"
+        >
+            Add Product
+        </a>
+
+    {% endif %}
+
+</section>
+
+
+<!-- Products -->
+
+<section>
+
+    <h2>
+        Products
+    </h2>
+
+    <div class="card-grid">
+
+        {% for product in products %}
+
+            <div class="card product-card">
+
+                {% if product.image %}
+
+                    <img
+                        src="{{ product.image.url }}"
+                        alt="{{ product.name }}"
+                    >
+
+                {% endif %}
+
+
+                <div class="product-card-content">
+
+                    <h3>
+                        {{ product.name }}
+                    </h3>
+
+                    <p>
+                        {{ product.description|truncatewords:15 }}
+                    </p>
+
+                    <p class="product-price">
+                        ${{ product.price }}
+                    </p>
+
+
+                    {% if user.is_authenticated %}
+
+                        {% if user != store.owner.user %}
+
+                            <a
+                                href="{% url 'add_to_cart' product.id %}"
+                                class="btn"
+                            >
+                                Add to Cart
+                            </a>
+
+                        {% endif %}
+
+                    {% else %}
+
+                        <a
+                            href="{% url 'login' %}"
+                            class="btn"
+                        >
+                            Login to Buy
+                        </a>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        {% empty %}
+
+            <div class="card">
+
+                <h3>
+                    No products yet.
+                </h3>
+
+                <p>
+                    This store doesn't have any products yet.
+                </p>
+
+                {% if user.is_authenticated and user == store.owner.user %}
+
+                    <a
+                        href="{% url 'add_product' store.id %}"
+                        class="btn"
+                    >
+                        Add First Product
+                    </a>
+
+                {% endif %}
+
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+
+<br>
+
+
+<a
+    href="{% url 'stores' %}"
+    class="btn btn-secondary"
+>
+    Back to Stores
+</a>
+
+{% endblock %}
